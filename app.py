@@ -40,14 +40,17 @@ app.title="Coach rank ESA PL"
 #==================== CONSTANTS ==========================================
 
 COLORS = [
-  '#153dab','#7b34a8','#b4249a','#de1e84',
-  '#fa3569','#ff594c','#ff802e','#8fadff', 
-  '#e3c068','#66ab03', '#ABA226','#0382AB','#07495E']
-# F7B305 - pomarańczowy kolor
-# C42904 - czerwony kolor
+  '#3B8EA5', # Blue Munsell
+  '#F5EE9E', # Green Yellow Crayola
+  '#F49E4C', # Sandy Brown
+  '#AB3428', # Sweet Brown
+  '#F71735', # Imperial Red
+  '#99C24D'  # Android Green
+  ]
 
+BACKGROUND = '#2E2E2E'
 #================    HTML STRUCTURE   ====================================
-app.layout = html.Div( 
+app.layout = html.Div(   
   children=[
     html.Div(
       id="div-loading",
