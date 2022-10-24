@@ -1,38 +1,41 @@
 #====================== Style tabów =================
 tab_style = {
-    "background": "#153dab",
+    "background": "#3B8EA5",
     'color': 'white',
     'border': 'grey',
-    'font-family':"Hemi Head Rg",
+    'font-family':"Signika-Regular",
     'font-size': '14px',
     'font-weight': 'normal',
     'align-items': 'center',
     'justify-content': 'center',
-    'border-radius': '4px',
-    'padding':'6px'
+    'border-radius': '12px',
+    'padding':'6px',
+	'margin-right':'6px'
 }
 
 tab_selected_style = {
-    "background":'#ff802e',
+    "background":'#F49E4C',
     'color': 'white',
-    'font-family': "Hemi Head Rg",
+    'font-family': "Signika-Regular",
     'font-size': '14px',
     'font-weight': 'bold',
     'align-items': 'center',
     'justify-content': 'center',
-    'border-radius': '4px',
-    'padding':'6px'
+    'border-radius': '12px',
+    'padding':'6px',
+	'margin-right':'6px'
 }
 
 tab_disabled_style = {
     "background":"gainsboro",
     'color': 'white',
-    'font-family': "Hemi Head Rg",
+    'font-family': "Signika-Regular",
     'font-size': '14px',
     'font-weight': 'bold',
     'align-items': 'center',
     'justify-content': 'center',
-    'border-radius': '4px',
-    'padding':'6px'
+    'border-radius': '12px',
+    'padding':'6px',
+	'margin-right':'6px'
 }
 #====================================================

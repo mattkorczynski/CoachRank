@@ -68,46 +68,46 @@ app.layout = html.Div(
       children=[
       dcc.Tabs([
         dcc.Tab(
-          label = 'Start', 
+          label = 'Coach rank', 
           style = tabs.tab_style, 
           selected_style=tabs.tab_selected_style, 
           children = [
           html.Div([
-            html.H1('Lista maszyn Mine Master'),
-            dash_table.DataTable(
-              df_machines_analysis.to_dict('records'), 
-              [{"name": i, "id": i} for i in df_machines_analysis.columns], 
-              id='tbl', 
-              page_action='none',
-              style_table={
-                'height':'700px',
-                'width':'900px', 
-                'font':"Hemi Head Rg", 
-                'position': 'relative', 
-                'left':50,
-                'top':30},
-              style_cell={
-                'text-align':'center', 
-                'minWidth': '90px', 
-                'width': '180px', 
-                'maxWidth': '180px'},
-              style_data={
-                'font-family':'Segoe, sans-serif', 
-                'color':'white', 
-                'background-color':'#2e2e2e', 
-                'fontSize':12, 
-                'border':'rgb(46,46,46)'},
-              style_header={
-                      'font-family':'Hemi Head Rg',
-                      'background-color': COLORS[0],
-                      'fontSize':12,
-                      'color':'white'},
-              style_data_conditional=[
-                {'if':{'filter_query':'{Typ}="E"'}, 'backgroundColor':'#006600'},
-                {'if': {'column_id': 'Nr'}, 'width': '10%'}, 
-                {'if': {'column_id': 'Typ'}, 'width': '10%'},
-                ]    
-              )
+            html.H1('Coach rank - Poland'),
+            # dash_table.DataTable(
+            #   df_machines_analysis.to_dict('records'), 
+            #   [{"name": i, "id": i} for i in df_machines_analysis.columns], 
+            #   id='tbl', 
+            #   page_action='none',
+            #   style_table={
+            #     'height':'700px',
+            #     'width':'900px', 
+            #     'font':"Hemi Head Rg", 
+            #     'position': 'relative', 
+            #     'left':50,
+            #     'top':30},
+            #   style_cell={
+            #     'text-align':'center', 
+            #     'minWidth': '90px', 
+            #     'width': '180px', 
+            #     'maxWidth': '180px'},
+            #   style_data={
+            #     'font-family':'Segoe, sans-serif', 
+            #     'color':'white', 
+            #     'background-color':'#2e2e2e', 
+            #     'fontSize':12, 
+            #     'border':'rgb(46,46,46)'},
+            #   style_header={
+            #           'font-family':'Hemi Head Rg',
+            #           'background-color': COLORS[0],
+            #           'fontSize':12,
+            #           'color':'white'},
+            #   style_data_conditional=[
+            #     {'if':{'filter_query':'{Typ}="E"'}, 'backgroundColor':'#006600'},
+            #     {'if': {'column_id': 'Nr'}, 'width': '10%'}, 
+            #     {'if': {'column_id': 'Typ'}, 'width': '10%'},
+            #     ]    
+            #   )
             ], className="six columns"),
                 ]),
         dcc.Tab(
@@ -259,8 +259,8 @@ app.layout = html.Div(
           disabled = False, 
           children = [
             html.H1("Ustawienia systemu"),
-            html.Small(ling.polski[0], \
-              style={"color":"white"}),
+            # html.Small(ling.polski[0], \
+            #   style={"color":"white"}),
             du.Upload(
               id='dash_uploader',
               text="Wrzuć tutaj pliki do wysłania",
