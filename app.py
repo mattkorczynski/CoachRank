@@ -85,7 +85,7 @@ app.layout = html.Div(
                id='tbl',
                page_action='none',
                style_table={
-                 'height':'700px',
+                 'height':'400px',
                  'width':'900px',
                  'font':"Signika-Regular",
                  'position': 'relative',
@@ -108,19 +108,19 @@ app.layout = html.Div(
                        'fontSize':18,
                        'color':'white'},
                style_data_conditional=[
-                  {'if':{'filter_query':'{Position}="1"'}, 'backgroundColor': COLORS[5]},
-                  {'if':{'filter_query':'{Position}="10"'}, 'backgroundColor': COLORS[3]},
-                  {'if': {'filter_query': '{Position}="2"'}, 'backgroundColor': COLORS[2]},
-                  {'if': {'filter_query': '{Position}="3"'}, 'backgroundColor': COLORS[2]},
-                  {'if': {'filter_query': '{Position}="4"'}, 'backgroundColor': COLORS[2]},
-                  {'if': {'filter_query': '{Position}="9"'}, 'backgroundColor': COLORS[4]}
+                  {'if':{'filter_query':'{Pos}="1"'}, 'backgroundColor': COLORS[5]},
+                  {'if':{'filter_query':'{Pos}="10"'}, 'backgroundColor': COLORS[3]},
+                  {'if': {'filter_query': '{Pos}="2"'}, 'backgroundColor': COLORS[2]},
+                  {'if': {'filter_query': '{Pos}="3"'}, 'backgroundColor': COLORS[2]},
+                  {'if': {'filter_query': '{Pos}="4"'}, 'backgroundColor': COLORS[2]},
+                  {'if': {'filter_query': '{Pos}="9"'}, 'backgroundColor': COLORS[4]}
             #     {'if': {'column_id': 'Nr'}, 'width': '10%'},
             #     {'if': {'column_id': 'Typ'}, 'width': '10%'},
                  ]
                )
             ], className="six columns"),
             html.H3('1st - UEFA Champions League - preliminary round'),
-            html.H3('2nd, 3rd and 4th - UEFA Europe Conference League - first qualifying round'),
+            html.H3('2nd and 3rd - UEFA Europe Conference League - first qualifying round'),
             html.H3('Cup winner - UEFA Europe Conference League - first qualifying round'),
             html.H3('9th - relegation play-offs'),
             html.H3('10th - relegated'),
