@@ -26,8 +26,8 @@ import dash_auth as auth
 import base64
 import io
 import dash_uploader as du
-
-
+import GetDataFromWeb as gd
+import libs.figures_faroe_football as figlib
 import unittest
 
 
@@ -50,10 +50,17 @@ COLORS = [
 
 BACKGROUND = '#2E2E2E'
 
+URL_FAROESE = "https://www.fsf.fo/landslidini/menn/a-landslidid/landsdystir-1988-2022/"
+
 df_table_2022 = pd.read_csv("F:\\PROGRAMOWANIE\\CoachRank\\data\\league_table_2022.csv",
                             sep=';',
                             error_bad_lines=False)
 
+df_national_team_results = gd.get_data_faroese_national_team(URL_FAROESE, COLORS)
+wins = len(df_national_team_results[df_national_team_results['W/D/L'] == 'W'])
+draws = len(df_national_team_results[df_national_team_results['W/D/L'] == 'D'])
+losses = len(df_national_team_results[df_national_team_results['W/D/L'] == 'L'])
+figure = figlib.draw_plot_wins(wins, draws, losses, COLORS)
 #================    HTML STRUCTURE   ====================================
 app.layout = html.Div(   
   children=[
@@ -241,30 +248,65 @@ app.layout = html.Div(
           ]) 
         ]),
         dcc.Tab(
-          label = 'Division 3',
-          id = "Zakladka_temperatury", 
+          label = 'National team',
+          id = "National team",
           style = tabs.tab_style, 
           selected_style=tabs.tab_selected_style, 
           disabled_style=tabs.tab_disabled_style,
           disabled = False,
           children = [
-            html.Div(id='Plot_header'),
-              dls.Hash(
-                dcc.Graph(
-                  id='2nd-example-graph', 
-                  style={
-                    'vertical-align': 'top', 
-                    'margin-left': '2vw', 
-                    'margin-top': '1vw', 
-                    'margin-right':'2vw', 
-                    'height':900}
-                  ), 
-                color="white", 
-                speed_multiplier=2,
-                size=100,)
-              
-          ]),
-      
+            html.Div([
+              html.H1('National team results in history'),
+              dash_table.DataTable(
+                df_national_team_results.to_dict('records_2'),
+                [{"name": i, "id": i} for i in df_national_team_results.columns],
+                id='tbl2',
+                page_action='none',
+                style_table={
+                  'height': '6900px',
+                  'width': '900px',
+                  'font': "Signika-Regular",
+                  'position': 'relative',
+                  'left': 50,
+                  'top': 30},
+                style_cell={
+                  'text-align': 'center',
+                  'minWidth': '90px',
+                  'width': '180px',
+                  'maxWidth': '180px'},
+                style_data={
+                  'font-family': 'Signika-Regular',
+                  'color': 'white',
+                  'background-color': '#2e2e2e',
+                  'fontSize': 16,
+                  'border': 'rgb(46,46,46)'},
+                style_header={
+                  'font-family': 'Signika-Regular',
+                  'background-color': COLORS[0],
+                  'fontSize': 18,
+                  'color': 'white'},
+                style_data_conditional=[
+                  {'if': {'filter_query': '{W/D/L}="W"'}, 'backgroundColor': COLORS[5]},
+                  {'if': {'filter_query': '{W/D/L}="L"'}, 'backgroundColor': COLORS[3]},
+                  {'if': {'filter_query': '{W/D/L}="D"'}, 'backgroundColor': COLORS[2]}
+                  #     {'if': {'column_id': 'Nr'}, 'width': '10%'},
+                  #     {'if': {'column_id': 'Typ'}, 'width': '10%'},
+                ]
+              ),
+              dcc.Graph(
+                id='czas_pracy_graph_slupki',
+                      style={
+                        'vertical-align': 'top',
+                        'margin-left': '1vw',
+                        'margin-top': '2vw',
+                        'margin-right':'2vw',
+                        'width' :'800px',
+                        'height' : '400px',
+                        'display':"inline-block"
+                        }
+                      )
+          ])
+         ]),
         dcc.Tab(
           label='Settings',
           id="Zakladka_adminstratora",
@@ -319,10 +361,12 @@ app.layout = html.Div(
 
 @app.callback(
     Output('testowy_tekst', 'children'),
+    Output('czas_pracy_graph_slupki','figure'),
     Input('test_button', 'n_clicks')
-)
+  )
 def przygotuj_analizy(btn1):
-    return html.Div('tekst')
+  global figure
+  return html.Div('tekst'), figure
 
 
 # Loading bar
