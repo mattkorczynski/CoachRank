@@ -8,8 +8,8 @@ import plotly.express as px
 import pandas as pd
 import time
 import dash
-import dash_html_components as html
-import dash_core_components as dcc
+from dash import html
+from dash import dcc
 import os
 from os import walk
 import sys
@@ -34,7 +34,7 @@ import unittest
 # Password pairs defined by external library
 
 app = Dash(__name__)
-app.title="Coach rank ESA PL"
+app.title = "Faroe Islands football leagues"
 
 
 #==================== CONSTANTS ==========================================
@@ -49,6 +49,11 @@ COLORS = [
   ]
 
 BACKGROUND = '#2E2E2E'
+
+df_table_2022 = pd.read_csv("F:\\PROGRAMOWANIE\\CoachRank\\data\\league_table_2022.csv",
+                            sep=';',
+                            error_bad_lines=False)
+
 #================    HTML STRUCTURE   ====================================
 app.layout = html.Div(   
   children=[
@@ -68,55 +73,65 @@ app.layout = html.Div(
       children=[
       dcc.Tabs([
         dcc.Tab(
-          label = 'Coach rank', 
+          label = 'Division 1',
           style = tabs.tab_style, 
           selected_style=tabs.tab_selected_style, 
           children = [
           html.Div([
-            html.H1('Coach rank - Poland'),
-            # dash_table.DataTable(
-            #   df_machines_analysis.to_dict('records'), 
-            #   [{"name": i, "id": i} for i in df_machines_analysis.columns], 
-            #   id='tbl', 
-            #   page_action='none',
-            #   style_table={
-            #     'height':'700px',
-            #     'width':'900px', 
-            #     'font':"Hemi Head Rg", 
-            #     'position': 'relative', 
-            #     'left':50,
-            #     'top':30},
-            #   style_cell={
-            #     'text-align':'center', 
-            #     'minWidth': '90px', 
-            #     'width': '180px', 
-            #     'maxWidth': '180px'},
-            #   style_data={
-            #     'font-family':'Segoe, sans-serif', 
-            #     'color':'white', 
-            #     'background-color':'#2e2e2e', 
-            #     'fontSize':12, 
-            #     'border':'rgb(46,46,46)'},
-            #   style_header={
-            #           'font-family':'Hemi Head Rg',
-            #           'background-color': COLORS[0],
-            #           'fontSize':12,
-            #           'color':'white'},
-            #   style_data_conditional=[
-            #     {'if':{'filter_query':'{Typ}="E"'}, 'backgroundColor':'#006600'},
-            #     {'if': {'column_id': 'Nr'}, 'width': '10%'}, 
+            html.H1('Betri Deildin - 1st level football league stats 2022'),
+            dash_table.DataTable(
+               df_table_2022.to_dict('records'),
+               [{"name": i, "id": i} for i in df_table_2022.columns],
+               id='tbl',
+               page_action='none',
+               style_table={
+                 'height':'700px',
+                 'width':'900px',
+                 'font':"Signika-Regular",
+                 'position': 'relative',
+                 'left':50,
+                 'top':30},
+               style_cell={
+                 'text-align':'center',
+                 'minWidth': '90px',
+                 'width': '180px',
+                 'maxWidth': '180px'},
+               style_data={
+                 'font-family':'Signika-Regular',
+                 'color':'white',
+                 'background-color':'#2e2e2e',
+                 'fontSize':16,
+                 'border':'rgb(46,46,46)'},
+               style_header={
+                       'font-family':'Signika-Regular',
+                       'background-color': COLORS[0],
+                       'fontSize':18,
+                       'color':'white'},
+               style_data_conditional=[
+                  {'if':{'filter_query':'{Position}="1"'}, 'backgroundColor': COLORS[5]},
+                  {'if':{'filter_query':'{Position}="10"'}, 'backgroundColor': COLORS[3]},
+                  {'if': {'filter_query': '{Position}="2"'}, 'backgroundColor': COLORS[2]},
+                  {'if': {'filter_query': '{Position}="3"'}, 'backgroundColor': COLORS[2]},
+                  {'if': {'filter_query': '{Position}="4"'}, 'backgroundColor': COLORS[2]},
+                  {'if': {'filter_query': '{Position}="9"'}, 'backgroundColor': COLORS[4]}
+            #     {'if': {'column_id': 'Nr'}, 'width': '10%'},
             #     {'if': {'column_id': 'Typ'}, 'width': '10%'},
-            #     ]    
-            #   )
+                 ]
+               )
             ], className="six columns"),
+            html.H3('1st - UEFA Champions League - preliminary round'),
+            html.H3('2nd, 3rd and 4th - UEFA Europe Conference League - first qualifying round'),
+            html.H3('Cup winner - UEFA Europe Conference League - first qualifying round'),
+            html.H3('9th - relegation play-offs'),
+            html.H3('10th - relegated'),
                 ]),
         dcc.Tab(
-          label='Informacje ogólne', 
+          label='Division 2',
           style = tabs.tab_style, 
           id = "Zakladka_ogolne", 
           selected_style=tabs.tab_selected_style, 
           disabled_style=tabs.tab_disabled_style,
-          disabled = True, 
+          disabled = False,
           children=[
           html.Div([    
             html.Div([
@@ -226,12 +241,12 @@ app.layout = html.Div(
           ]) 
         ]),
         dcc.Tab(
-          label = 'Wykresy', 
+          label = 'Division 3',
           id = "Zakladka_temperatury", 
           style = tabs.tab_style, 
           selected_style=tabs.tab_selected_style, 
           disabled_style=tabs.tab_disabled_style,
-          disabled = True, 
+          disabled = False,
           children = [
             html.Div(id='Plot_header'),
               dls.Hash(
@@ -245,31 +260,55 @@ app.layout = html.Div(
                     'height':900}
                   ), 
                 color="white", 
-                speed_multiplier = 2,
-                size = 100,)
+                speed_multiplier=2,
+                size=100,)
               
           ]),
       
         dcc.Tab(
-          label = 'Ustawienia', 
-          id = "Zakladka_adminstratora", 
+          label='Settings',
+          id="Zakladka_adminstratora",
           style = tabs.tab_style, 
           selected_style=tabs.tab_selected_style, 
           disabled_style=tabs.tab_disabled_style,
           disabled = False, 
           children = [
-            html.H1("Ustawienia systemu"),
+            html.H1("System settings"),
             # html.Small(ling.polski[0], \
             #   style={"color":"white"}),
             du.Upload(
               id='dash_uploader',
-              text="Wrzuć tutaj pliki do wysłania",
-              text_completed="Wrzucono ",
-              filetypes = ['csv'],
+              text="Put here the file",
+              text_completed="File uploaded",
+              filetypes=['csv'],
               ),
             html.Button('Test', id='test_button'),
             html.Div(id='testowy_tekst')
-        ])
+        ]),
+        dcc.Tab(
+          label='Team Info',
+          id="tab_team_info",
+          style=tabs.tab_style,
+          selected_style=tabs.tab_selected_style,
+          disabled_style=tabs.tab_disabled_style,
+          disabled=True,
+          children=[
+            html.Div(id='Plot_header_2'),
+            dls.Hash(
+              dcc.Graph(
+                id='2nd-example-graph-2',
+                style={
+                  'vertical-align': 'top',
+                  'margin-left': '2vw',
+                  'margin-top': '1vw',
+                  'margin-right': '2vw',
+                  'height': 900}
+              ),
+              color="white",
+              speed_multiplier=2,
+              size=100, )
+
+          ])
       ])
     ])
 ])
