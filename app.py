@@ -63,9 +63,29 @@ df_national_team_results = gd.get_data_faroese_national_team(URL_FAROESE, COLORS
 df_national_team_results = trl.translate_faroese_countries(df_national_team_results)
 
 wins = len(df_national_team_results[df_national_team_results['W/D/L'] == 'W'])
+wins_home = len(df_national_team_results[(df_national_team_results['W/D/L'] == 'W') & (df_national_team_results['H/A']=='H')])
+wins_away = len(df_national_team_results[(df_national_team_results['W/D/L'] == 'W') & (df_national_team_results['H/A']=='A')])
 draws = len(df_national_team_results[df_national_team_results['W/D/L'] == 'D'])
+draws_home = len(df_national_team_results[(df_national_team_results['W/D/L'] == 'D') & (df_national_team_results['H/A']=='H')])
+draws_away = len(df_national_team_results[(df_national_team_results['W/D/L'] == 'D') & (df_national_team_results['H/A']=='A')])
 losses = len(df_national_team_results[df_national_team_results['W/D/L'] == 'L'])
-figure = figlib.draw_plot_wins(wins, draws, losses, COLORS)
+losses_home = len(df_national_team_results[(df_national_team_results['W/D/L'] == 'L') & (df_national_team_results['H/A']=='H')])
+losses_away = len(df_national_team_results[(df_national_team_results['W/D/L'] == 'L') & (df_national_team_results['H/A']=='A')])
+print(wins)
+print(wins_away)
+print(wins_home)
+print('-----')
+print(draws)
+print(draws_away)
+print(draws_home)
+print('-----')
+print(losses)
+print(losses_away)
+print(losses_home)
+
+#figure = figlib.draw_plot_wins(wins, draws, losses, COLORS)
+figure = figlib.draw_plot_wins_sunburst(wins, draws, losses, wins_home, wins_away, draws_home,
+                                        draws_away, losses_home, losses_away, [COLORS[3],COLORS[5], COLORS[2]])
 #================    HTML STRUCTURE   ====================================
 app.layout = html.Div(   
   children=[
@@ -238,14 +258,14 @@ app.layout = html.Div(
                       style={
                         'vertical-align': 'top',
                         'margin-left': '1vw',
-                        'margin-top': '1vw',
+                        'margin-top': '2vw',
                         'margin-right':'2vw',
                         'width' :'500px',
                         'height' : '400px',
                         'display':"inline-block",
                         'position': 'absolute',
                         'left': '970px',
-                        'top': '30px'
+                        'top': '90px'
                         }
                       )
           ])
