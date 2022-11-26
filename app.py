@@ -29,7 +29,7 @@ import dash_uploader as du
 import GetDataFromWeb as gd
 import libs.figures_faroe_football as figlib
 import unittest
-
+import libs.translator as trl
 
 # Password pairs defined by external library
 
@@ -60,6 +60,8 @@ df_table_2022_2 = pd.read_csv("F:\\PROGRAMOWANIE\\CoachRank\\data\\league_table_
                             error_bad_lines=False)
 
 df_national_team_results = gd.get_data_faroese_national_team(URL_FAROESE, COLORS)
+df_national_team_results = trl.translate_faroese_countries(df_national_team_results)
+
 wins = len(df_national_team_results[df_national_team_results['W/D/L'] == 'W'])
 draws = len(df_national_team_results[df_national_team_results['W/D/L'] == 'D'])
 losses = len(df_national_team_results[df_national_team_results['W/D/L'] == 'L'])
@@ -83,7 +85,7 @@ app.layout = html.Div(
       children=[
       dcc.Tabs([
         dcc.Tab(
-          label = 'Division 1',
+          label = 'Betri Deildin (1)',
           style = tabs.tab_style, 
           selected_style=tabs.tab_selected_style, 
           children = [
@@ -136,120 +138,55 @@ app.layout = html.Div(
             html.H3('10th - relegated'),
                 ]),
         dcc.Tab(
-          label='Division 2',
+          label='Division 1 (2)',
           style = tabs.tab_style, 
           id = "Zakladka_ogolne", 
           selected_style=tabs.tab_selected_style, 
           disabled_style=tabs.tab_disabled_style,
           disabled = False,
           children=[
-          html.Div([
             html.Div([
-              html.Div(id='Machine_header'),
+              html.H1('2nd level football league stats 2022'),
               dash_table.DataTable(
-                id = 'tablica_danych',
-                page_size=1000,
+                df_table_2022_2.to_dict('records'),
+                [{"name": i, "id": i} for i in df_table_2022_2.columns],
+                id='tbl_2',
+                page_action='none',
                 style_table={
-                  'height':'70px',
-                  'overflowY':'auto',
-                  'font':"Hemi Head Rg"},
-                style_cell={'text-align':'center'},
+                  'height': '400px',
+                  'width': '900px',
+                  'font': "Signika-Regular",
+                  'position': 'relative',
+                  'left': 50,
+                  'top': 30},
+                style_cell={
+                  'text-align': 'center',
+                  'minWidth': '90px',
+                  'width': '180px',
+                  'maxWidth': '180px'},
                 style_data={
-                  'font-family':'Segoe, sans-serif',
-                  'color':'white',
-                  'background-color':'#2e2e2e',
-                  'fontSize':12,
-                  'border':'rgb(46,46,46)'},
+                  'font-family': 'Signika-Regular',
+                  'color': 'white',
+                  'background-color': '#2e2e2e',
+                  'fontSize': 16,
+                  'border': 'rgb(46,46,46)'},
                 style_header={
-                  'font-family':'Hemi Head Rg',
+                  'font-family': 'Signika-Regular',
                   'background-color': COLORS[0],
-                  'color':'white'}
-                )
-              #html.Img(src=app.get_asset_url('PM_R.png'))
-              ]),
-              html.Div([
-                  dls.Hash(
-                    dcc.Graph(
-                      id='czas_pracy_graph',
-                      style={
-                        'vertical-align': 'top',
-                        'margin-left': '2vw',
-                        'margin-top': '2vw',
-                        'margin-right':'2vw',
-                        'width' :'1700px'}
-                      ),
-                      color="white",
-                      speed_multiplier = 2,
-                      size = 100,)
-              ]),
-              html.H1('Dostępne dane dzienne'),
-              html.Div([
-                dls.Hash(
-                  dash_table.DataTable(id = 'tablica_dostepnych_dni',
-                    page_size=1000, 
-                    style_table={
-                      'height':'1400px', 
-                      'overflowY':'auto', 
-                      'font':"Hemi Head Rg"},
-                    style_cell={'text-align':'center'},
-                    style_data={
-                      'font-family':'Segoe, sans-serif', 
-                      'color':'white', 
-                      'background-color':'#2e2e2e', 
-                      'fontSize':12, 
-                      'border':'rgb(46,46,46)'},
-                    style_header={
-                      'font-family':'Hemi Head Rg',
-                      'background-color': COLORS[0],
-                      'color':'white'},
-                    style_data_conditional=[
-                      {'if':{'filter_query':'{Temp. cieczy chł. - max}>100', 
-                      'column_id':'Temp. cieczy chł. - max'}, 
-                      'backgroundColor':'#F7B305'},
-                      {'if':{'filter_query':'{Temp. cieczy chł. - max}>110', 
-                      'column_id':'Temp. cieczy chł. - max'}, 
-                      'backgroundColor':'#C42904'},
-                      {'if':{'filter_query':'{Temp. oleju ZM - max}>90', 
-                      'column_id':'Temp. oleju ZM - max'}, 
-                      'backgroundColor':'#F7B305'},
-                      {'if':{'filter_query':'{Temperatura aku 1 max}>280', 
-                      'column_id':'Temperatura aku 1 max'}, 
-                      'backgroundColor':'#F7B305'},
-                      {'if':{'filter_query':'{Temperatura aku 2 max}>280', 
-                      'column_id':'Temperatura aku 2 max'}, 
-                      'backgroundColor':'#F7B305'},
-                      {'if':{'filter_query':'{Temperatura aku 3 max}>280', 
-                      'column_id':'Temperatura aku 3 max'}, 
-                      'backgroundColor':'#F7B305'},
-                      {'if':{'filter_query':'{Temperatura aku 4 max}>280', 
-                      'column_id':'Temperatura aku 4 max'}, 
-                      'backgroundColor':'#F7B305'},
-                      {'if':{'filter_query':'{Temperatura aku 5 max}>280', 
-                      'column_id':'Temperatura aku 5 max'}, 
-                      'backgroundColor':'#F7B305'},
-                      {'if':{'filter_query':'{Temperatura aku 1 max}>300', 
-                      'column_id':'Temperatura aku 1 max'}, 
-                      'backgroundColor':'#C42904'},
-                      {'if':{'filter_query':'{Temperatura aku 2 max}>300', 
-                      'column_id':'Temperatura aku 2 max'}, 
-                      'backgroundColor':'#C42904'},
-                      {'if':{'filter_query':'{Temperatura aku 3 max}>300', 
-                      'column_id':'Temperatura aku 3 max'}, 
-                      'backgroundColor':'#C42904'},
-                      {'if':{'filter_query':'{Temperatura aku 4 max}>300', 
-                      'column_id':'Temperatura aku 4 max'}, 
-                      'backgroundColor':'#C42904'},
-                      {'if':{'filter_query':'{Temperatura aku 5 max}>300', 
-                      'column_id':'Temperatura aku 5 max'}, 
-                      'backgroundColor':'#C42904'},
-
-                    ]
-                ), color="white", 
-              speed_multiplier = 2,
-              size = 100,)
-            ]) 
-          ]) 
-        ]),
+                  'fontSize': 18,
+                  'color': 'white'},
+                style_data_conditional=[
+                  {'if': {'filter_query': '{Pos}="1"'}, 'backgroundColor': COLORS[5]},
+                  {'if': {'filter_query': '{Pos}="10"'}, 'backgroundColor': COLORS[3]},
+                  {'if': {'filter_query': '{Pos}="3"'}, 'backgroundColor': COLORS[2]},
+                  {'if': {'filter_query': '{Pos}="9"'}, 'backgroundColor': COLORS[4]}
+                  #     {'if': {'column_id': 'Nr'}, 'width': '10%'},
+                  #     {'if': {'column_id': 'Typ'}, 'width': '10%'},
+                ]
+              )
+            ], className="six columns"),
+            html.H3('R - Reserve Team')
+          ]),
         dcc.Tab(
           label = 'National team',
           id = "National team",
@@ -269,9 +206,9 @@ app.layout = html.Div(
                   'height': '6900px',
                   'width': '900px',
                   'font': "Signika-Regular",
-                  'position': 'relative',
-                  'left': 50,
-                  'top': 30},
+                  'position': 'absolute',
+                  'left': '50px',
+                  'top': '30px'},
                 style_cell={
                   'text-align': 'center',
                   'minWidth': '90px',
@@ -301,11 +238,14 @@ app.layout = html.Div(
                       style={
                         'vertical-align': 'top',
                         'margin-left': '1vw',
-                        'margin-top': '2vw',
+                        'margin-top': '1vw',
                         'margin-right':'2vw',
-                        'width' :'800px',
+                        'width' :'500px',
                         'height' : '400px',
-                        'display':"inline-block"
+                        'display':"inline-block",
+                        'position': 'absolute',
+                        'left': '970px',
+                        'top': '30px'
                         }
                       )
           ])
