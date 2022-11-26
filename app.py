@@ -55,6 +55,9 @@ URL_FAROESE = "https://www.fsf.fo/landslidini/menn/a-landslidid/landsdystir-1988
 df_table_2022 = pd.read_csv("F:\\PROGRAMOWANIE\\CoachRank\\data\\league_table_2022.csv",
                             sep=';',
                             error_bad_lines=False)
+df_table_2022_2 = pd.read_csv("F:\\PROGRAMOWANIE\\CoachRank\\data\\league_table_2022_2.csv",
+                            sep=';',
+                            error_bad_lines=False)
 
 df_national_team_results = gd.get_data_faroese_national_team(URL_FAROESE, COLORS)
 wins = len(df_national_team_results[df_national_team_results['W/D/L'] == 'W'])
@@ -140,22 +143,22 @@ app.layout = html.Div(
           disabled_style=tabs.tab_disabled_style,
           disabled = False,
           children=[
-          html.Div([    
+          html.Div([
             html.Div([
               html.Div(id='Machine_header'),
               dash_table.DataTable(
                 id = 'tablica_danych',
-                page_size=1000, 
+                page_size=1000,
                 style_table={
-                  'height':'70px', 
-                  'overflowY':'auto', 
+                  'height':'70px',
+                  'overflowY':'auto',
                   'font':"Hemi Head Rg"},
                 style_cell={'text-align':'center'},
                 style_data={
-                  'font-family':'Segoe, sans-serif', 
-                  'color':'white', 
-                  'background-color':'#2e2e2e', 
-                  'fontSize':12, 
+                  'font-family':'Segoe, sans-serif',
+                  'color':'white',
+                  'background-color':'#2e2e2e',
+                  'fontSize':12,
                   'border':'rgb(46,46,46)'},
                 style_header={
                   'font-family':'Hemi Head Rg',
@@ -167,15 +170,15 @@ app.layout = html.Div(
               html.Div([
                   dls.Hash(
                     dcc.Graph(
-                      id='czas_pracy_graph', 
+                      id='czas_pracy_graph',
                       style={
-                        'vertical-align': 'top', 
-                        'margin-left': '2vw', 
-                        'margin-top': '2vw', 
-                        'margin-right':'2vw', 
+                        'vertical-align': 'top',
+                        'margin-left': '2vw',
+                        'margin-top': '2vw',
+                        'margin-right':'2vw',
                         'width' :'1700px'}
-                      ), 
-                      color="white", 
+                      ),
+                      color="white",
                       speed_multiplier = 2,
                       size = 100,)
               ]),
