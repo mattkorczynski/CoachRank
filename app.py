@@ -145,7 +145,7 @@ app.layout = html.Div(
                   {'if': {'filter_query': '{Pos}="2"'}, 'backgroundColor': COLORS[2]},
                   {'if': {'filter_query': '{Pos}="3"'}, 'backgroundColor': COLORS[2]},
                   {'if': {'filter_query': '{Pos}="4"'}, 'backgroundColor': COLORS[2]},
-                  {'if': {'filter_query': '{Pos}="9"'}, 'backgroundColor': COLORS[4]}
+                  {'if': {'filter_query': '{Pos}="9"'}, 'backgroundColor': COLORS[3]}
             #     {'if': {'column_id': 'Nr'}, 'width': '10%'},
             #     {'if': {'column_id': 'Typ'}, 'width': '10%'},
                  ]
@@ -154,8 +154,7 @@ app.layout = html.Div(
             html.H3('1st - UEFA Champions League - preliminary round'),
             html.H3('2nd and 3rd - UEFA Europe Conference League - first qualifying round'),
             html.H3('Cup winner - UEFA Europe Conference League - first qualifying round'),
-            html.H3('9th - relegation play-offs'),
-            html.H3('10th - relegated'),
+            html.H3('9th an 10th - relegation'),
                 ]),
         dcc.Tab(
           label='Division 1 (2)',
@@ -271,14 +270,15 @@ app.layout = html.Div(
           ])
          ]),
         dcc.Tab(
-          label='Settings',
+          label='About',
           id="Zakladka_adminstratora",
           style = tabs.tab_style, 
           selected_style=tabs.tab_selected_style, 
           disabled_style=tabs.tab_disabled_style,
           disabled = False, 
           children = [
-            html.H1("System settings"),
+            html.H1("About the dashboard"),
+            html.H6("Test"),
             # html.Small(ling.polski[0], \
             #   style={"color":"white"}),
             du.Upload(
