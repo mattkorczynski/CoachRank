@@ -12,25 +12,24 @@ import numpy as np
 
 URL_FAROESE = "https://www.fsf.fo/landslidini/menn/a-landslidid/landsdystir-1988-2022/"
 
+
 def url_get_contents(url):
     """ Opens a website and read its binary contents (HTTP Response Body) """
     req = urllib.request.Request(url=url)
     f = urllib.request.urlopen(req)
     return f.read()
 
-def get_data_faroese_national_team(URL_FAROESE, COLORS):
-    page = requests.get(URL_FAROESE)
+
+def get_data_faroese_national_team(url_faroese, colors):
+    page = requests.get(url_faroese)
     soup = BeautifulSoup(page.content, 'html.parser')
     table = soup.find("table")
-    header = table.find_all("td")
-    n_rows = 0
-    n_columns = 0
     column_names = []
     for row in table.find_all('tr'):
         td_tags = row.find_all('td')
         column_names.append(td_tags)
-    df_matches = pd.DataFrame(columns=['No','Date','Round','Opponent','Result', 'H/A', 'W/D/L', 'Scored', 'Conceded'])
-    print(len(column_names))
+    df_matches = pd.DataFrame(columns=['No', 'Date', 'Round', 'Opponent', 'Result',
+                                       'H/A', 'W/D/L', 'Scored', 'Conceded'])
     table_items = len(column_names)
     for i in range(1, table_items):
         df_matches.at[i, "No"] = str(column_names[i][0])[4:-5]
@@ -67,33 +66,12 @@ def get_data_faroese_national_team(URL_FAROESE, COLORS):
                 df_matches.at[i, "W/D/L"] = "W"
             else:
                 df_matches.at[i, "W/D/L"] = "D"
-    print(df_matches)
+
     bramki_strzelone = df_matches["Scored"].sum()
-    print(bramki_strzelone)
+
     bramki_puszczone = df_matches["Conceded"].sum()
-    print(bramki_puszczone)
+
     wins = len(df_matches[df_matches['W/D/L'] == 'W'])
     draws = len(df_matches[df_matches['W/D/L'] == 'D'])
     losses = len(df_matches[df_matches['W/D/L'] == 'L'])
     return df_matches
-#print(column_names[2][0])
-#parser = HTMLParser()
-#parser.feed(str(column_names[2][0]))
-#print(parser.handle_data(str(column_names[2][0])))
-#print(column_names[2][1])
-#print(column_names[2][2])
-#print(column_names[2][3])
-#print(column_names[2][4])
-#print('_-_-_-_-_-_-_')
-#print(column_names[3][0])
-#print(column_names[3][1])
-#print(column_names[3][2])
-#print(column_names[3][3])
-#print(column_names[3][4])
-#print(len(column_names[3]))
-# xhtml = url_get_contents(URL).decode('iso-8859-2')
-# p = HTMLTableParser()
-# p.feed(xhtml)
-# pprint(p.tables)
-# print('* * * * *')
-# pprint(p.rawdata)
