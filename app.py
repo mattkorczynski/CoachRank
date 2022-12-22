@@ -65,6 +65,11 @@ losses_home = len(df_national_team_results[(df_national_team_results['W/D/L'] ==
 losses_away = len(df_national_team_results[(df_national_team_results['W/D/L'] == 'L')
                                            & (df_national_team_results['H/A'] == 'A')])
 
+df_stats_year_by_year = pd.DataFrame(columns=["year", "wins", "draws", "loses"])
+for index, row in df_national_team_results.iterrows():
+    year = df_national_team_results.at[index, "Date"]
+    print(year[-5:-1])
+
 figure = figlib.draw_plot_wins_sunburst(wins, draws, losses, wins_home, wins_away, draws_home,
                                         draws_away, losses_home, losses_away, [COLORS[3], COLORS[5], COLORS[2]])
 # ==================================    HTML STRUCTURE   ====================================
